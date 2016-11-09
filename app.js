@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/wechat', wechatIotParse);
+app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}));
 app.use('/', index);
 app.use('/users', users);
 
