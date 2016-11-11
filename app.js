@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var wechatIotParse = require('wachat-iot-parser');
+var wechatIotParse = require('wechat-iot-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
