@@ -31,9 +31,9 @@ var url = 'mongodb://localhost:27017/bike';
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, db) {
   console.log("Connected successfully to server");
-  app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}, db));
+  app.locals.db = db;
 });
-
+app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}, app.locals));
 app.use('/', index);
 app.use('/users', users);
 
