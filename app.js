@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var wechatIotParse = require('wechat-iot-parser');
 
+var MongoClient = require('mongodb').MongoClient;
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -24,7 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}));
+var url = 'mongodb://localhost:27017/bike';
+
+// Use connect method to connect to the server
+MongoClient.connect(url, function(err, db) {
+  console.log("Connected successfully to server");
+  app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}, db));
+});
+
 app.use('/', index);
 app.use('/users', users);
 
