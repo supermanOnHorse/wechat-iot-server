@@ -1,18 +1,15 @@
 <template>
     <div id="app">
-<el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-  <el-menu-item index="1">处理中心</el-menu-item>
-  <el-submenu index="2">
-    <template slot="title">我的工作台</template>
-    <el-menu-item index="2-1">选项1</el-menu-item>
-    <el-menu-item index="2-2">选项2</el-menu-item>
-    <el-menu-item index="2-3">选项3</el-menu-item>
-  </el-submenu>
-  <el-menu-item index="3">订单管理</el-menu-item>
-</el-menu>
-        <h1>{{ msg }}</h1>
-        <el-button @click.native="startHacking">Let's do it</el-button>
-<router-view></router-view>
+        <div class="headerWrapper">
+            <header class="header" ref="header">
+                <div class="container">
+                    <h1>
+                        <router-link :to="`/`">BIKE</router-link>
+                    </h1>
+                </div>
+            </header>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -35,8 +32,49 @@
     }
 </script>
 
-<style>
+<style scoped>
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    #app {
+        height: 100%;
+    }
     body {
-        font-family: Helvetica, sans-serif;
+        font-family: 'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',SimSun,sans-serif;
+        overflow: auto;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+    }
+    .headerWrapper {
+        height: 80px;
+    }
+    .header {
+        height: 80px;
+        background-color: rgba(32, 160, 255, 1);
+        color: #fff;
+        top: 0;
+        left: 0;
+        width: 100%;
+        line-height: @height;
+        z-index: 100;
+        position: relative;
+    }
+    .container {
+        height: 100%;
+        box-sizing: border-box;
+    }
+    h1 {
+        margin: 0;
+        float: left;
+        font-size: 32px;
+        font-weight: normal;
+    }
+    a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
     }
 </style>
