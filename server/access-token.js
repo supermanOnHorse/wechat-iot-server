@@ -1,4 +1,4 @@
-const request = require('co-request');
+const https = require('https');
 
 const _wx_access_token_ = {};
 
@@ -33,8 +33,19 @@ module.exports = function token(appid, secret) {
 /**
  * get one new token.
  */
-function refresh(appid, secret, cb) {
+function refresh(appid, secret) {
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + appid + '&secret=' + secret;
+    https.get(url, (res) => {
+        console.log('statusCode:', res.statusCode);
+        console.log('headers:', res.headers);
+
+        res.on('data', (d) => {
+            process.stdout.write(d);
+        });
+
+    }).on('error', (e) => {
+            console.error(e);
+    });
     return request(url, function (error, response, body) {
         if (error){
             return error;
