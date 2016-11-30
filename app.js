@@ -9,10 +9,15 @@ var wechatIotParse = require('wechat-iot-parser');
 
 var MongoClient = require('mongodb').MongoClient;
 
+var config = require('./server/config');
+var token = require('./server/access-token');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+app.locals.getToken = token(config.appId, config.appSecret);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +38,7 @@ MongoClient.connect(url, function(err, db) {
   console.log("Connected successfully to server");
   app.locals.db = db;
 });
-app.use('/wechat', wechatIotParse({token:"jgt44Gn2qVbd26k6B8mbU8nXqBkbnUQ6"}, app.locals));
+app.use('/wechat', wechatIotParse({token:config.token}, app.locals));
 app.use('/', index);
 app.use('/users', users);
 
