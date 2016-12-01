@@ -20,7 +20,7 @@ var wechat = function(config){
                 res.send("error");
             }
         }else{
-            var db
+            var db = req.app.locals.db;
             var collection = db.collection('wechat-message');
             collection.insertOne(req.body, function(err, result) {
                 console.log("Inserted wechat-message into the collection");
