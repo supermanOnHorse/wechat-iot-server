@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var wechatIotParse = require('wechat-iot-parser');
+var wechatIotParse = require('./server/message-parser');
 
 var MongoClient = require('mongodb').MongoClient;
 
