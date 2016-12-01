@@ -19,8 +19,7 @@
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
     "vue": "^2.0.5",
-    "vue-router": "^2.0.3",
-    "wechat-iot-parser": "^1.0.0"
+    "vue-router": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
