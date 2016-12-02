@@ -1,8 +1,10 @@
 <template>
     <div id="app">
+        <div style="background: #20A0FF;width: 80px;color: white;padding:20px;">
+            <h1>智能车锁后台</h1>
+        </div>
         <el-row class="tac">
             <el-col :span="4">
-                <h5>带 icon</h5>
                 <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-message"></i>导航一</template>
@@ -15,7 +17,7 @@
                             <el-menu-item index="1-3">选项3</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                    <el-menu-item index="2"><i class="el-icon-menu"></i>导航二</el-menu-item>
+                    <el-menu-item index="2"><i class="el-icon-menu"></i>设备管理</el-menu-item>
                     <el-menu-item index="3"><i class="el-icon-setting"></i>导航三</el-menu-item>
                 </el-menu>
             </el-col>
