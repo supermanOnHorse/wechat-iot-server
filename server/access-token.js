@@ -13,19 +13,19 @@ function build_key(appid, secret){
  * return one token.
  */
 module.exports = function token(appid, secret) {
-    var getToken = function () {
+    var getToken = function (cb) {
         if(!appid || !secret){
             var err = new Error();
             err.name = 'WechatAccessTokenError';
-            return err;
+            return cb(err);
         }
         // 1. Return token if it is valid.
         var key = build_key(appid, secret);
         if (isValid(key)) {
-            return _wx_access_token_[key];
+            return cb(_wx_access_token_[key]);
         }
         // 2. refresh token
-        return refresh(appid, secret);
+        return refresh(appid, secret, cb);
     }
     return getToken;
 };
@@ -33,7 +33,7 @@ module.exports = function token(appid, secret) {
 /**
  * get one new token.
  */
-function refresh(appid, secret) {
+function refresh(appid, secret, cb) {
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + appid + '&secret=' + secret;
     https.get(url, (res) => {
         console.log('statusCode:', res.statusCode);
@@ -42,14 +42,14 @@ function refresh(appid, secret) {
         res.on('data', (d) => {
             if(d.errcode){
                 console.error(d.errmsg);
-                return d.errmsg;
+                return cb(d.errmsg);
             }
             var key = build_key(appid, secret);
             _wx_access_token_[key] = {
                 access_token: d.access_token,
                 expires_in: new Date().getTime() + (d.expires_in - 10) * 1000
             };
-            return _wx_access_token_[key];
+            return cb(_wx_access_token_[key]);
         });
 
     }).on('error', (e) => {

@@ -15,7 +15,10 @@ var wechat = function(config){
     return function (req, res) {
         if(req.method == "GET"){
             if(req.query.method == 'getToken'){
-                res.send(req.app.locals.getToken());
+                req.app.locals.getToken(function(token){
+                    res.send(token);
+                })
+
             }
             if(checkSignature(req.query.signature, req.query.timestamp, req.query.nonce, config.token)){
                 res.send(req.query.echostr);
