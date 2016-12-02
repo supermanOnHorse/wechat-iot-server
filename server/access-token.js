@@ -40,6 +40,7 @@ function refresh(appid, secret, cb) {
         console.log('headers:', res.headers);
 
         res.on('data', (d) => {
+            d = JSON.parse(d);
             if(d.errcode){
                 console.error(d.errmsg);
                 return cb(d.errmsg);
