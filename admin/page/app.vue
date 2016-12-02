@@ -1,15 +1,29 @@
 <template>
     <div id="app">
-        <div class="headerWrapper">
-            <header class="header" ref="header">
-                <div class="container">
-                    <h1>
-                        <router-link :to="`/`">BIKE</router-link>
-                    </h1>
-                </div>
-            </header>
-            <router-view></router-view>
-        </div>
+        <el-row class="tac">
+            <el-col :span="4">
+                <h5>带 icon</h5>
+                <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-message"></i>导航一</template>
+                        <el-menu-item-group>
+                            <template slot="title">分组一</template>
+                            <el-menu-item index="1-1">选项1</el-menu-item>
+                            <el-menu-item index="1-2">选项2</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group title="分组2">
+                            <el-menu-item index="1-3">选项3</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-menu-item index="2"><i class="el-icon-menu"></i>导航二</el-menu-item>
+                    <el-menu-item index="3"><i class="el-icon-setting"></i>导航三</el-menu-item>
+                </el-menu>
+            </el-col>
+            <el-col :span="20">
+                <router-view></router-view>
+            </el-col>
+        </el-row>
+
     </div>
 </template>
 
@@ -32,7 +46,7 @@
     }
 </script>
 
-<style scoped>
+<style>
 
     html, body {
         margin: 0;
@@ -48,33 +62,5 @@
         font-weight: 400;
         -webkit-font-smoothing: antialiased;
     }
-    .headerWrapper {
-        height: 80px;
-    }
-    .header {
-        height: 80px;
-        background-color: rgba(32, 160, 255, 1);
-        color: #fff;
-        top: 0;
-        left: 0;
-        width: 100%;
-        line-height: @height;
-        z-index: 100;
-        position: relative;
-    }
-    .container {
-        height: 100%;
-        box-sizing: border-box;
-    }
-    h1 {
-        margin: 0;
-        float: left;
-        font-size: 32px;
-        font-weight: normal;
-    }
-    a {
-        color: #fff;
-        text-decoration: none;
-        display: block;
-    }
+
 </style>
