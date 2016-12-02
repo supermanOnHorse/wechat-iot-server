@@ -18,7 +18,7 @@ var wechat = function(config){
                 req.app.locals.getToken(function(token){
                     res.send(token);
                 })
-
+                return;
             }
             if(checkSignature(req.query.signature, req.query.timestamp, req.query.nonce, config.token)){
                 res.send(req.query.echostr);
