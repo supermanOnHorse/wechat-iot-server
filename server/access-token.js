@@ -40,29 +40,20 @@ function refresh(appid, secret) {
         console.log('headers:', res.headers);
 
         res.on('data', (d) => {
-            process.stdout.write(d);
+            if(d.errcode){
+                console.error(d.errmsg);
+                return d.errmsg;
+            }
+            var key = build_key(appid, secret);
+            _wx_access_token_[key] = {
+                access_token: d.access_token,
+                expires_in: new Date().getTime() + (d.expires_in - 10) * 1000
+            };
+            return _wx_access_token_[key];
         });
 
     }).on('error', (e) => {
-            console.error(e);
-    });
-    return request(url, function (error, response, body) {
-        if (error){
-            return error;
-        }
-        body = JSON.parse(body);
-        if (body && body.errcode) {
-            var err = new Error(body.errmsg);
-            err.name = 'WechatAPIError';
-            err.code = body.errcode;
-            return err;
-        }
-        var key = build_key(appid, secret);
-        _wx_access_token_[key] = {
-            access_token: body.access_token,
-            expires_in: new Date().getTime() + (body.expires_in - 10) * 1000
-        };
-        return _wx_access_token_[key];
+        console.error(e);
     });
 }
 
