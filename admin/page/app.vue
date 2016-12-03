@@ -2,6 +2,7 @@
     <div id="app">
         <div style="background: #20A0FF;height: 80px;color: white;padding:20px;">
             <h1>智能车锁后台</h1>
+
         </div>
         <el-row class="tac">
             <el-col :span="4">
