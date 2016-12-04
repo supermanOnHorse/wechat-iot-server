@@ -10,7 +10,7 @@
                     label="序号">
             </el-table-column>
             <el-table-column
-                    prop="device_id"
+                    prop="deviceid"
                     label="设备ID"
                     width="360">
             </el-table-column>
