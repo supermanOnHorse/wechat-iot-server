@@ -88,7 +88,7 @@
                 this.qrDialogVisible = true;
             },
             showLicense(row){
-                this.license = row.licence;
+                this.license = row.devicelicence;
                 this.licenseDialogVisible = true;
             }
         }
