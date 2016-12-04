@@ -16,11 +16,9 @@
                     inline-template
                     label="操作"
                     width="180">
-                <v-link href="/device/{{row.product_id}}">
-                    <el-button type="text" size="small">
-                        查看对应设备
-                    </el-button>
-                </v-link>
+                <el-button type="text" size="small" @click="showDevice(row)">>
+                    查看对应设备
+                </el-button>
             </el-table-column>
         </el-table>
     </div>
@@ -40,6 +38,11 @@
         data () {
             return {
                 products: []
+            }
+        },
+        method:{
+            showDevice(row) {
+                this.$router.go("/device/"+row.product_id);
             }
         }
     }
