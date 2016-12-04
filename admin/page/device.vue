@@ -20,6 +20,9 @@
                 <el-button type="text" size="small" @click="showQr(row)">
                     查看二维码
                 </el-button>
+                <el-button type="text" size="small" @click="showLicense(row)">
+                    查看证书
+                </el-button>
             </el-table-column>
         </el-table>
         <el-dialog title="提示" v-model="dialogVisible" size="tiny">
@@ -30,6 +33,12 @@
         </el-dialog>
         <el-dialog title="二维码图片" v-model="qrDialogVisible" size="tiny">
             <img v-bind:src="imgSrc"/>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="设备license" v-model="licenseDialogVisible" size="tiny">
+            <span>{{license}}</span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
             </span>
@@ -56,7 +65,9 @@
                 product_id: "",
                 dialogVisible: false,
                 qrDialogVisible: false,
-                imgSrc:""
+                imgSrc:"",
+                licenseDialogVisible:false,
+                license:""
             }
         },
         methods:{
@@ -74,6 +85,10 @@
             showQr(row){
                 this.imgSrc = "http://qr.liantu.com/api.php?text="+row.qrticket;
                 this.qrDialogVisible = true;
+            },
+            showLicense(row){
+                this.license = row.licence;
+                this.licenseDialogVisible = true;
             }
         }
     }
