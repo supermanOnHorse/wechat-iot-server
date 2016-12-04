@@ -40,7 +40,7 @@
             </span>
         </el-dialog>
         <el-dialog title="设备license" v-model="licenseDialogVisible" size="tiny">
-            <span>{{license}}</span>
+            <p style="word-break: break-all;">{{license}}</p>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="licenseDialogVisible = false">确 定</el-button>
             </span>
