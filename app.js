@@ -14,6 +14,7 @@ var token = require('./server/access-token');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var product = require('./routes/product');
 
 var app = express();
 
@@ -41,6 +42,7 @@ MongoClient.connect(url, function(err, db) {
 app.use('/wechat', wechatIotParse({token:config.token}, app.locals));
 app.use('/', index);
 app.use('/users', users);
+app.use('/product',product);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
