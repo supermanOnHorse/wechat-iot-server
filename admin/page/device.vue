@@ -52,7 +52,7 @@
                 dialogVisible: false
             }
         },
-        method:{
+        methods:{
             getDevice() {
                 this.$http.get('/device/' + this.product_id + '/_init', {}, {
                     emulateJSON: true
