@@ -12,6 +12,14 @@
                     prop="name"
                     label="产品名称">
             </el-table-column>
+            <el-table-column
+                    inline-template
+                    label="操作"
+                    width="180">
+                <el-button type="text" size="small">
+                    <v-link href="/device/{{row.product_id}}">查看对应设备</v-link>
+                </el-button>
+            </el-table-column>
         </el-table>
     </div>
 </template>
