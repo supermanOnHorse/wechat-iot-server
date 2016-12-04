@@ -17,7 +17,7 @@
             <el-table-column
                     inline-template
                     label="操作">
-                <el-button type="text" size="small" @click="showDevice(row)">
+                <el-button type="text" size="small" @click="showQr(row)">
                     查看二维码
                 </el-button>
             </el-table-column>
