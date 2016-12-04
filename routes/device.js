@@ -21,7 +21,7 @@ var getDevice = function(db, token, product_id, callback){
 
         res.on('data', (d) => {
             d = JSON.parse(d);
-            if(d.base_resp.errorcode != 0){
+            if(d.base_resp.errcode != 0){
                 console.error(d.base_resp.errmsg);
             }else{
                 var collection = db.collection('device');
