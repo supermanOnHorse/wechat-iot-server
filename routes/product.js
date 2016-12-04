@@ -5,9 +5,9 @@ var findProducts = function(db, callback) {
     // Get the documents collection
     var collection = db.collection('product');
     // Find some documents
-    collection.find({}).toArray(function(err, docs) {
+    collection.find({}).toArray(function(err, products) {
         console.log("Found the following records");
-        console.log(docs)
+        console.log(products)
         callback(products);
     });
 }
