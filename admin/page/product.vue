@@ -16,7 +16,7 @@
                     inline-template
                     label="操作"
                     width="180">
-                <el-button type="text" size="small" @click="showDevice(row)">>
+                <el-button type="text" size="small" @click="showDevice(row)">
                     查看对应设备
                 </el-button>
             </el-table-column>
