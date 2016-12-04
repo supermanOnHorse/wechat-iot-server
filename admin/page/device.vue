@@ -17,13 +17,19 @@
             <el-table-column
                     inline-template
                     label="操作">
-                <el-button type="text" size="small" @click="showDevice(row)">>
+                <el-button type="text" size="small" @click="showDevice(row)">
                     查看二维码
                 </el-button>
             </el-table-column>
         </el-table>
         <el-dialog title="提示" v-model="dialogVisible" size="tiny">
             <span>授权成功</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="二维码图片" v-model="qrDialogVisible" size="tiny">
+            <img v-bind:src="imgSrc"/>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
             </span>
@@ -48,7 +54,9 @@
             return {
                 devices: [],
                 product_id: "",
-                dialogVisible: false
+                dialogVisible: false,
+                qrDialogVisible: false,
+                imgSrc:""
             }
         },
         methods:{
@@ -62,6 +70,10 @@
                 }, function(response) {
                     console.log(response)
                 });
+            },
+            showQr(row){
+                this.imgSrc = "http://qr.liantu.com/api.php?text="+row.qrticket;
+                this.qrDialogVisible = true;
             }
         }
     }
