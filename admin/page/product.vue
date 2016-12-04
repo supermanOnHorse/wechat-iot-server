@@ -40,7 +40,7 @@
                 products: []
             }
         },
-        method:{
+        methods:{
             showDevice(row) {
                 this.$router.go("/device/"+row.product_id);
             }
