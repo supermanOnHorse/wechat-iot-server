@@ -17,7 +17,7 @@
                     label="操作"
                     width="180">
                 <el-button type="text" size="small" @click="showDevice(row)">
-                    查看对应设备
+                    <router-link :to="'home'+row.product_id">查看对应设备</router-link>
                 </el-button>
             </el-table-column>
         </el-table>
@@ -38,11 +38,6 @@
         data () {
             return {
                 products: []
-            }
-        },
-        methods:{
-            showDevice(row) {
-                this.$router.go("/device/"+row.product_id);
             }
         }
     }
