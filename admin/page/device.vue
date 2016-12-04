@@ -6,18 +6,17 @@
                 style="width: 100%">
             <el-table-column
                     type="index"
-                    width="50"
+                    width="180"
                     label="序号">
             </el-table-column>
             <el-table-column
                     prop="device_id"
                     label="设备ID"
-                    width="180">
+                    width="360">
             </el-table-column>
             <el-table-column
                     inline-template
-                    label="操作"
-                    width="180">
+                    label="操作">
                 <el-button type="text" size="small" @click="showDevice(row)">>
                     查看二维码
                 </el-button>
