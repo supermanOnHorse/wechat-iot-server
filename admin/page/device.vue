@@ -17,9 +17,14 @@
             <el-table-column
                     inline-template
                     label="操作">
-                <el-button type="text" size="small" @click="showQr(row)">
-                    查看二维码
-                </el-button>
+                <div>
+                    <el-button type="text" size="small" @click="showQr(row)">
+                        查看二维码
+                    </el-button>
+                    <el-button type="text" size="small" @click="showLicense(row)">
+                        查看证书
+                    </el-button>
+                </div>
             </el-table-column>
         </el-table>
         <el-dialog title="提示" v-model="dialogVisible" size="tiny">
