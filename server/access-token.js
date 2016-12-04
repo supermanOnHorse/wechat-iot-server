@@ -22,7 +22,7 @@ module.exports = function token(appid, secret) {
         // 1. Return token if it is valid.
         var key = build_key(appid, secret);
         if (isValid(key)) {
-            return cb(_wx_access_token_[key]);
+            return cb(_wx_access_token_[key].access_token);
         }
         // 2. refresh token
         return refresh(appid, secret, cb);
@@ -50,7 +50,7 @@ function refresh(appid, secret, cb) {
                 access_token: d.access_token,
                 expires_in: new Date().getTime() + (d.expires_in - 10) * 1000
             };
-            return cb(_wx_access_token_[key]);
+            return cb(_wx_access_token_[key].access_token);
         });
 
     }).on('error', (e) => {
