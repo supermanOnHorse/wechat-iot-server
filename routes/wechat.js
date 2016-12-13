@@ -10,13 +10,19 @@ var checkSignature = function (signature, timestamp, nonce, token) {
 
     return shasum.digest('hex') === signature;
 };
-var handleWechatMessage = function(db, message, callback){
+var saveWechatMessage = function(db, message, callback){
     var collection = db.collection('wechat-message');
     collection.insertOne(message, function(err, result) {
         callback();
     });
 }
-var sendAlertMessage = function(){
+var messageHandler = {
+    notify: function(){
+
+    }
+}
+var sendAlertMessage = function(token){
+    var url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+token;
 
 }
 
@@ -31,8 +37,9 @@ var wechat = function(config){
     });
     router.post('/', function (req, res) {
         var db = req.app.locals.db;
-        handleWechatMessage(db, req.body, function(){
+        saveWechatMessage(db, req.body, function(){
             console.log("Inserted wechat-message into the collection");
+            messageHandler[req.body.msg_type]();
             res.json({error_code: 0, error_msg: "ok"});
         });
     });

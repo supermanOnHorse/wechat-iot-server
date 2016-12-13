@@ -7,16 +7,19 @@ function build_key(appid, secret){
 module.exports = function token(appid, secret) {
     var getToken = function (db, cb) {
         var key = build_key(appid, secret);
-        if (isValid(key)) {
-            return cb(_wx_access_token_[key].access_token);
-        }
-        // 2. refresh token
-        return refresh(appid, secret, cb);
+        var collection = db.collection('wechat-token');
+        collection.findOne({"key": key}, function(err, doc){
+            if (isValid(doc)) {
+                cb(doc.access_token);
+            }else{
+                refresh(appid, secret, collection, cb);
+            }
+        });
     }
     return getToken;
 };
 
-function refresh(appid, secret, cb) {
+function refresh(appid, secret, collection, cb) {
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + appid + '&secret=' + secret;
     https.get(url, (res) => {
         console.log('statusCode:', res.statusCode);
@@ -26,14 +29,17 @@ function refresh(appid, secret, cb) {
             d = JSON.parse(d);
             if(d.errcode){
                 console.error(d.errmsg);
-                return cb(d.errmsg);
+                return;
             }
             var key = build_key(appid, secret);
-            _wx_access_token_[key] = {
+            var doc = {
+                key: key,
                 access_token: d.access_token,
                 expires_in: new Date().getTime() + (d.expires_in - 10) * 1000
             };
-            return cb(_wx_access_token_[key].access_token);
+            collection.updateOne({key: key}, doc, {upsert:true}, function (err, result) {
+                cb(doc.access_token);
+            });
         });
 
     }).on('error', (e) => {
@@ -42,8 +48,6 @@ function refresh(appid, secret, cb) {
 }
 
 
-function isValid(db, key) {
-    var collection = db.collection('wechat-token');
-    collection.findOne({"key": key}, function(err, ));
-    return _wx_access_token_[key] && new Date().getTime() < _wx_access_token_[key].expires_in;
+function isValid(doc) {
+    return doc.access_token && new Date().getTime() < doc.expires_in;
 }
