@@ -16,6 +16,9 @@ var handleWechatMessage = function(db, message, callback){
         callback();
     });
 }
+var sendAlertMessage = function(){
+
+}
 
 
 var wechat = function(config){

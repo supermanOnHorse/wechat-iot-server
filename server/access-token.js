@@ -1,25 +1,11 @@
 const https = require('https');
 
-const _wx_access_token_ = {};
-
-/*
- * Store token's key as `appid|secret` format, becuase the secret can be updated in MP.
- */
 function build_key(appid, secret){
     return appid + "|" + secret;
 }
 
-/**
- * return one token.
- */
 module.exports = function token(appid, secret) {
-    var getToken = function (cb) {
-        if(!appid || !secret){
-            var err = new Error();
-            err.name = 'WechatAccessTokenError';
-            return cb(err);
-        }
-        // 1. Return token if it is valid.
+    var getToken = function (db, cb) {
         var key = build_key(appid, secret);
         if (isValid(key)) {
             return cb(_wx_access_token_[key].access_token);
@@ -30,9 +16,6 @@ module.exports = function token(appid, secret) {
     return getToken;
 };
 
-/**
- * get one new token.
- */
 function refresh(appid, secret, cb) {
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + appid + '&secret=' + secret;
     https.get(url, (res) => {
@@ -58,9 +41,9 @@ function refresh(appid, secret, cb) {
     });
 }
 
-/**
- * check key is valid.
- */
-function isValid(key) {
+
+function isValid(db, key) {
+    var collection = db.collection('wechat-token');
+    collection.findOne({"key": key}, function(err, ));
     return _wx_access_token_[key] && new Date().getTime() < _wx_access_token_[key].expires_in;
 }
