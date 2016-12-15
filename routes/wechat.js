@@ -16,11 +16,6 @@ var saveWechatMessage = function(db, message, callback){
         callback();
     });
 }
-var messageHandler = {
-    notify: function(){
-
-    }
-}
 var sendAlertMessage = function(token){
     var url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+token;
 
@@ -39,7 +34,11 @@ var wechat = function(config){
         var db = req.app.locals.db;
         saveWechatMessage(db, req.body, function(){
             console.log("Inserted wechat-message into the collection");
-            messageHandler[req.body.msg_type]();
+            if(req.body.msg_type == "notify"){
+                if(req.body.status == 0){
+                    req.locals.getToken()
+                }
+            }
             res.json({error_code: 0, error_msg: "ok"});
         });
     });
