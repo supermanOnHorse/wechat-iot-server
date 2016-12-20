@@ -25,26 +25,26 @@ var getOpenidByDeviceID = function (db, device_id, cb) {
 };
 var sendAlertMessage = function(openid, token, status){
     var url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+token;
-    var params = {
-        touser: openid,
-        template_id: "aN3x24H0uH2I9qatvWt-UcdIUWezhLVByrVeH38uqWQ",
-        url: "http://weixin.qq.com/download",
-        data: {
-            "first": {
-                "value": "您的自行车已经开始移动！",
-                "color": "#173177"
+    var params =  {
+        "touser":openid,
+        "template_id":"aN3x24H0uH2I9qatvWt-UcdIUWezhLVByrVeH38uqWQ",
+        "url":"http://weixin.qq.com/download",
+        "data":{
+            "first":{
+                "value":"请确认车辆是否安全！",
+                "color":"#173177"
             },
-            "keyword1": {
-                "value": "位置移动",
-                "color": "#173177"
+            "keyword1":{
+                "value":"位置移动",
+                "color":"#173177"
             },
             "keyword2": {
-                "value": new Date().toLocaleString(),
-                "color": "#173177"
+                "value":new Date().toLocaleString(),
+                "color":"#173177"
             },
-            "remark": {
-                "value": "请确认是否本人操作！",
-                "color": "#173177"
+            "remark":{
+                "value":"感谢使用！",
+                "color":"#173177"
             }
         }
     };
