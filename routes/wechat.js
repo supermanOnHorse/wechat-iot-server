@@ -1,6 +1,7 @@
 var crypto = require("crypto");
 var express = require('express');
 var router = express.Router();
+var request = require("request");
 
 var checkSignature = function (signature, timestamp, nonce, token) {
 
@@ -15,9 +16,42 @@ var saveWechatMessage = function(db, message, callback){
     collection.insertOne(message, function(err, result) {
         callback();
     });
-}
-var sendAlertMessage = function(token){
+};
+var getOpenidByDeviceID = function (db, device_id, cb) {
+    var collection = db.collection('wechat-message');
+    collection.findOne({msg_type:"bind"}, {sort:[["msg_id", -1]]}, function (err, result) {
+        cb(result.open_id);
+    });
+};
+var sendAlertMessage = function(openid, token, status){
     var url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+token;
+    var params = {
+        touser: openid,
+        template_id: "aN3x24H0uH2I9qatvWt-UcdIUWezhLVByrVeH38uqWQ",
+        url: "http://weixin.qq.com/download",
+        data: {
+            "first": {
+                "value": "您的自行车已经开始移动！",
+                "color": "#173177"
+            },
+            "keyword1": {
+                "value": "位置移动",
+                "color": "#173177"
+            },
+            "keyword2": {
+                "value": new Date().toLocaleString(),
+                "color": "#173177"
+            },
+            "remark": {
+                "value": "请确认是否本人操作！",
+                "color": "#173177"
+            }
+        }
+    };
+    request.post({url: url, json:true, body:JSON.stringify(params)}, function (err, httpResponse, body) {
+        console.log(err);
+        console.log(body);
+    });
 
 }
 
@@ -32,12 +66,15 @@ var wechat = function(config){
     });
     router.post('/', function (req, res) {
         var db = req.app.locals.db;
-        saveWechatMessage(db, req.body, function(){
+        var message = req.body;
+        saveWechatMessage(db, message, function(){
             console.log("Inserted wechat-message into the collection");
-            if(req.body.msg_type == "notify"){
-                if(req.body.status == 0){
-                    req.locals.getToken()
-                }
+            if(message.msg_type == "notify"){
+                getOpenidByDeviceID(db, message.device_id, function (openid) {
+                    req.locals.getToken(function(token){
+                        sendAlertMessage(openid, token, message.services.operation_status.status);
+                    });
+                });
             }
             res.json({error_code: 0, error_msg: "ok"});
         });

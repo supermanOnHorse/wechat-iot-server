@@ -1,4 +1,4 @@
-const https = require('https');
+const request = require('request');
 
 function build_key(appid, secret){
     return appid + "|" + secret;
@@ -21,29 +21,20 @@ module.exports = function token(appid, secret) {
 
 function refresh(appid, secret, collection, cb) {
     var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + appid + '&secret=' + secret;
-    https.get(url, (res) => {
-        console.log('statusCode:', res.statusCode);
-        console.log('headers:', res.headers);
-
-        res.on('data', (d) => {
-            d = JSON.parse(d);
-            if(d.errcode){
-                console.error(d.errmsg);
-                return;
-            }
-            var key = build_key(appid, secret);
-            var doc = {
-                key: key,
-                access_token: d.access_token,
-                expires_in: new Date().getTime() + (d.expires_in - 10) * 1000
-            };
-            collection.updateOne({key: key}, doc, {upsert:true}, function (err, result) {
-                cb(doc.access_token);
-            });
+    request.get({url: url, json:true}, function (err, httpResponse, body) {
+        if(body.errcode){
+            console.error(d.errmsg);
+            return;
+        }
+        var key = build_key(appid, secret);
+        var doc = {
+            key: key,
+            access_token: body.access_token,
+            expires_in: new Date().getTime() + (body.expires_in - 10) * 1000
+        };
+        collection.updateOne({key: key}, doc, {upsert:true}, function (err, result) {
+            cb(doc.access_token);
         });
-
-    }).on('error', (e) => {
-        console.error(e);
     });
 }
 
