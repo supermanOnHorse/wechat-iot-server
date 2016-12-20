@@ -40,5 +40,5 @@ function refresh(appid, secret, collection, cb) {
 
 
 function isValid(doc) {
-    return doc.access_token && new Date().getTime() < doc.expires_in;
+    return doc && doc.access_token && new Date().getTime() < doc.expires_in;
 }
