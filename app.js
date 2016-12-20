@@ -5,8 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var wechatIotParse = require('./server/message-parser');
-
 var MongoClient = require('mongodb').MongoClient;
 
 var config = require('./server/config');
@@ -16,6 +14,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var product = require('./routes/product');
 var device = require('./routes/device');
+var wechat = require('./routes/wechat');
 
 var app = express();
 
@@ -40,7 +39,7 @@ MongoClient.connect(url, function(err, db) {
   console.log("Connected successfully to server");
   app.locals.db = db;
 });
-app.use('/wechat', wechatIotParse({token:config.token}, app.locals));
+app.use('/wechat', wechat({token:config.token}));
 app.use('/', index);
 app.use('/users', users);
 app.use('/product',product);
