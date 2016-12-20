@@ -71,7 +71,7 @@ var wechat = function(config){
             console.log("Inserted wechat-message into the collection");
             if(message.msg_type == "notify"){
                 getOpenidByDeviceID(db, message.device_id, function (openid) {
-                    req.app.locals.getToken(function(token){
+                    req.app.locals.getToken(db, function(token){
                         sendAlertMessage(openid, token, message.services.operation_status.status);
                     });
                 });
