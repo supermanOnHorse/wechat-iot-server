@@ -48,7 +48,7 @@ var sendAlertMessage = function(openid, token, status){
             }
         }
     };
-    request.post({url: url, json:true, body:JSON.stringify(params)}, function (err, httpResponse, body) {
+    request.post({url: url, json:true, body:params}, function (err, httpResponse, body) {
         console.log(err);
         console.log(body);
     });
