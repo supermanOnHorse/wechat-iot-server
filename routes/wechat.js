@@ -64,6 +64,19 @@ var wechat = function(config){
             res.send("error");
         }
     });
+    router.get('/_test', function(req, res){
+        var db = req.app.locals.db;
+        var message = req.body;
+        saveWechatMessage(db, message, function(){
+            console.log("Inserted wechat-message into the collection");
+            var openid = 'oXYajs0A9TujkVuQQfwO8Y4mZENo';
+            req.app.locals.getToken(db, function(token){
+                sendAlertMessage(openid, token, '1');
+            });
+
+            res.json({error_code: 0, error_msg: "ok"});
+        });
+    });
     router.post('/', function (req, res) {
         var db = req.app.locals.db;
         var message = req.body;
